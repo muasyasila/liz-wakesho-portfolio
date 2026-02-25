@@ -6,6 +6,7 @@ export default function Hero() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0); 
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const mouseX = useMotionValue(100); 
   const smoothMouseX = useSpring(mouseX, { stiffness: 60, damping: 20 });
@@ -43,20 +44,26 @@ export default function Hero() {
     checkMobile();
     window.addEventListener("resize", checkMobile);
 
+    // Set initialLoad to false after a short delay
+    const timer = setTimeout(() => {
+      setInitialLoad(false);
+    }, 100);
+
     return () => {
       window.removeEventListener("resize", checkMobile);
+      clearTimeout(timer);
     };
   }, []);
 
-  // Simple 3-second interval for mobile
+  // Simple 5-second interval for mobile
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
     if (isMobile) {
-      // Switch between slides every 3 seconds
+      // Switch between slides every 5 seconds
       interval = setInterval(() => {
         setActiveIndex((current) => (current === 0 ? 1 : 0));
-      }, 10000); // 3000ms = 3 seconds
+      }, 5000); // 5000ms = 5 seconds
     }
 
     return () => {
@@ -89,7 +96,7 @@ export default function Hero() {
 
   return (
     <section 
-    id="hero-section"
+      id="hero-section"
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -135,11 +142,12 @@ export default function Hero() {
           </>
         )}
 
-        {/* MOBILE VIEW - Cards switch every 3 seconds */}
+        {/* MOBILE VIEW - Cards switch every 5 seconds */}
         {isMobile && (
           <div className="relative w-full h-full">
-            {/* Slide 1 - Leader (Advocate) */}
+            {/* Slide 1 - Leader (Advocate) - Always visible first */}
             <motion.div
+              initial={{ opacity: 1 }}
               animate={{ 
                 opacity: activeIndex === 0 ? 1 : 0,
               }}
@@ -167,8 +175,9 @@ export default function Hero() {
               </div>
             </motion.div>
 
-            {/* Slide 2 - Innovator - now with dark background */}
+            {/* Slide 2 - Innovator - Starts hidden */}
             <motion.div
+              initial={{ opacity: 0 }}
               animate={{ 
                 opacity: activeIndex === 1 ? 1 : 0,
               }}
