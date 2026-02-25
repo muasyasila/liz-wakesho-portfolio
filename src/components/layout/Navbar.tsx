@@ -68,7 +68,9 @@ export default function Navbar() {
           className="flex flex-col z-[320] text-left"
         >
           <span className={`${textColor} font-serif text-lg md:text-xl tracking-tight transition-colors duration-300 font-bold`}>
-            Liz Wakesho Mwashori
+            {/* Show full name on desktop, just "Liz Wakesho" on mobile */}
+            <span className="hidden sm:inline">Liz Wakesho Mwashori</span>
+            <span className="sm:hidden">Liz Wakesho</span>
           </span>
           {/* Sub-labels: Hidden on mobile */}
           <span className="hidden sm:block text-[#D4AF37] font-mono text-[9px] tracking-[0.2em] uppercase mt-1 font-black">
