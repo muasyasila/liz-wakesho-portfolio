@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const slides = [
   { title: "The Advocate", category: "Politics", color: "bg-[#050A18]", text: "Fighting for equity in the heart of the city.", image: "/images/profile5.webp" },
   { title: "The Visionary", category: "CEO @ Trelio", color: "bg-slate-900", text: "Building tech that scales with purpose.", image: "/images/trelioceo.webp" },
-  { title: "The Icon", category: "Editorial", color: "bg-black", text: "Redefining elegance through the walkway.", image: "/images/img3.webp" },
+  { title: "The Icon", category: "Editorial", color: "bg-black", text: "Redefining elegance on the walkway.", image: "/images/img3.webp" },
 ];
 
 export default function LifeInMotion() {
