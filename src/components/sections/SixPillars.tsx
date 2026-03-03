@@ -57,13 +57,37 @@ const pillars = [
 export default function SixPillars() {
   const [expanded, setExpanded] = useState<string | null>("mental-health");
   const [isPaused, setIsPaused] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   // Initialize the refs object to track each pillar's position
   const pillarRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // Auto-animation logic
+  // Intersection Observer to detect when section is in view
   useEffect(() => {
-    if (isPaused) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsVisible(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.3 } // Trigger when at least 30% of the section is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  // Auto-animation logic - only runs when section is visible and not paused
+  useEffect(() => {
+    if (isPaused || !isVisible) return;
     
     const interval = setInterval(() => {
       setExpanded((prev) => {
@@ -74,7 +98,7 @@ export default function SixPillars() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isPaused]);
+  }, [isPaused, isVisible]);
 
   const handleManualSelect = (id: string) => {
     setExpanded(id);
@@ -105,7 +129,10 @@ export default function SixPillars() {
   };
 
   return (
-    <section className="py-24 bg-white dark:bg-navy-deep overflow-hidden">
+    <section 
+      ref={sectionRef}
+      className="py-24 bg-white dark:bg-navy-deep overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-8 mb-16 text-center md:text-left">
         <h2 className="text-4xl md:text-6xl font-serif text-navy-deep dark:text-white">Advocacy Pillars</h2>
         <p className="text-gold-accent mt-4 tracking-[0.3em] uppercase text-sm font-bold">Driven by Justice & Sustainability</p>
