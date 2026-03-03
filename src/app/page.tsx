@@ -11,6 +11,7 @@ import Marquee from "@/components/sections/Marquee";
 import SecurityExpert from "@/components/sections/SecurityExpert";
 
 import SixPillars from "@/components/sections/SixPillars";
+import SovereignLeadership from "@/components/sections/SovereignLeadership";
 import TrelioSection from "@/components/sections/TrelioSection";
 import Footer from "@/components/shared/Footer";
 
@@ -22,6 +23,7 @@ export default function Home() {
       <section id="life-in-motion">
         <LifeInMotion />
       </section>
+      <SovereignLeadership />
       <HallOfCrowns />
       <SixPillars />
       <LegacyTimeline />
