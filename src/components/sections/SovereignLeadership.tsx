@@ -1,10 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Award, Shield, Landmark } from "lucide-react";
 
 export default function SovereignMandate() {
   const [isOpen, setIsOpen] = useState(false);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to ensure scroll is restored when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-slate-50 dark:bg-[#050505] transition-colors duration-700 py-20 px-6">
@@ -97,14 +111,23 @@ export default function SovereignMandate() {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-slate-900/95 dark:bg-black/95 backdrop-blur-xl"
+            onClick={() => setIsOpen(false)} // Close when clicking backdrop
           >
             <motion.div 
-              initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 50 }}
+              initial={{ scale: 0.9, y: 50 }} 
+              animate={{ scale: 1, y: 0 }} 
+              exit={{ scale: 0.9, y: 50 }}
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking modal content
               className="bg-white dark:bg-[#0A0A0A] max-w-2xl w-full p-8 md:p-14 rounded-[2rem] md:rounded-3xl relative shadow-2xl border border-slate-200 dark:border-white/10"
             >
-              <button onClick={() => setIsOpen(false)} className="absolute top-8 right-8 text-slate-400 hover:text-[#D4AF37] transition-colors">
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="absolute top-8 right-8 text-slate-400 hover:text-[#D4AF37] transition-colors z-10"
+              >
                 <X size={28} />
               </button>
               
