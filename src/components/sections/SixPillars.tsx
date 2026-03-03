@@ -80,22 +80,24 @@ export default function SixPillars() {
     setExpanded(id);
     setIsPaused(true);
 
-    // FIXED: Smart Scroll for Mobile with navbar offset
+    // Fixed scroll for mobile
     setTimeout(() => {
       const element = pillarRefs.current[id];
       if (element && window.innerWidth < 768) {
-        // Get navbar height dynamically
+        // Get navbar height
         const navbar = document.querySelector('nav, header, [class*="navbar"], [class*="header"]');
         const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 80;
         
-        // Calculate position with offset
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - navbarHeight - 20; // 20px extra padding
+        // Get the element's position relative to the viewport
+        const rect = element.getBoundingClientRect();
         
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
+        // If the element is not fully visible below the navbar, scroll it into view
+        if (rect.top < navbarHeight) {
+          window.scrollBy({
+            top: rect.top - navbarHeight - 10, // Small buffer
+            behavior: "smooth"
+          });
+        }
       }
     }, 300);
 
