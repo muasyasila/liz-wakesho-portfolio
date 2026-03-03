@@ -117,9 +117,10 @@ export default function SovereignMandate() {
                 <h3 className="text-3xl md:text-4xl font-serif text-slate-900 dark:text-white leading-tight">A Unified Mandate for <br/> Taita Taveta</h3>
                 
                 <div className="space-y-5 text-slate-600 dark:text-white/70 text-base md:text-lg leading-relaxed font-light italic pr-4 max-h-[50vh] overflow-y-auto custom-scrollbar">
-                  <p>“To the students of Taita Taveta, I stand before you not just as your Prime Minister, but as a partner in our shared progress.”</p>
+                  <p>“To the students of Taita Taveta,
+                    I stand before you not just as your Prime Minister, but as a partner in our shared progress.”</p>
                   <p>“My administration is committed to institutionalizing transparency, fostering campus unity, and ensuring that our collective voice drives the progress of our community.”</p>
-                  <p>“We are no longer waiting for the future; we are authoring it together. This is the era of Visionary Student Governance.”</p>
+                  <p>“This is the era of Visionary Student Governance.”</p>
                   
                   {/* Digital Signature Footer */}
                   <div className="pt-8 border-t border-slate-100 dark:border-white/5">

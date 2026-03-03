@@ -29,7 +29,7 @@ const timelineEvents = [
     year: "2023/2024",
     age: "National Stage",
     title: "Miss County Kenya",
-    description: "Three titles in one year—a testament to grace and unwavering support. Taking advocacy to the national stage.",
+    description: "Three titles in one year a testament to grace and unwavering support. Taking advocacy to the national stage.",
   },
 ];
 
