@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart, Leaf, Scale, Lightbulb, Globe, ShieldCheck } from "lucide-react";
 
@@ -58,6 +58,9 @@ export default function SixPillars() {
   const [expanded, setExpanded] = useState<string | null>("mental-health");
   const [isPaused, setIsPaused] = useState(false);
 
+  // Initialize the refs object to track each pillar's position
+  const pillarRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
   // Auto-animation logic
   useEffect(() => {
     if (isPaused) return;
@@ -76,7 +79,19 @@ export default function SixPillars() {
   const handleManualSelect = (id: string) => {
     setExpanded(id);
     setIsPaused(true);
-    // Resume auto-cycling after 10 seconds of no interaction
+
+    // FIXED: Smart Scroll for Mobile
+    // Adds a 300ms delay to allow the expansion animation to begin before scrolling
+    setTimeout(() => {
+      const element = pillarRefs.current[id];
+      if (element && window.innerWidth < 768) {
+        element.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "start" 
+        });
+      }
+    }, 300); 
+
     setTimeout(() => setIsPaused(false), 10000);
   };
 
@@ -87,24 +102,25 @@ export default function SixPillars() {
         <p className="text-gold-accent mt-4 tracking-[0.3em] uppercase text-sm font-bold">Driven by Justice & Sustainability</p>
       </div>
 
-      {/* Responsive Container: Column on mobile, Row on desktop */}
       <div className="flex flex-col md:flex-row h-auto md:h-[650px] w-full border-t border-b border-navy-deep/10 dark:border-white/10">
         {pillars.map((pillar) => {
           const isExpanded = expanded === pillar.id;
           return (
             <motion.div
               key={pillar.id}
+              // FIXED: Changed ref callback to return void
+              ref={(el) => {
+                pillarRefs.current[pillar.id] = el;
+              }}
               onClick={() => handleManualSelect(pillar.id)}
-              layout // This makes the resizing look smooth
+              layout 
               className={`relative cursor-pointer overflow-hidden transition-all duration-700 ease-in-out border-b md:border-b-0 md:border-r border-navy-deep/10 dark:border-white/10 flex flex-col
                 ${isExpanded ? "flex-[5] min-h-[400px] md:min-h-0" : "flex-[1] min-h-[80px] md:min-h-0"}`}
             >
-              {/* Background Color */}
               <div className={`absolute inset-0 z-0 ${pillar.color} transition-opacity duration-500 ${isExpanded ? "opacity-100" : "opacity-80"}`} />
 
               <div className="relative z-10 h-full p-6 md:p-8 flex flex-col justify-between">
                 
-                {/* Header: Icon + Title (Title hides on desktop when collapsed to save space) */}
                 <div className="flex items-center gap-4 text-gold-accent">
                   <div className="flex-shrink-0">{pillar.icon}</div>
                   <h3 className={`font-serif text-white transition-opacity duration-300 ${isExpanded ? "text-2xl md:text-4xl opacity-100" : "text-xl md:opacity-0"}`}>
@@ -112,7 +128,6 @@ export default function SixPillars() {
                   </h3>
                 </div>
 
-                {/* Vertical Title (Only visible on desktop when collapsed) */}
                 {!isExpanded && (
                   <motion.div 
                     initial={{ opacity: 0 }} 
@@ -125,7 +140,6 @@ export default function SixPillars() {
                   </motion.div>
                 )}
 
-                {/* Expanded Content with Glassmorphism */}
                 <AnimatePresence mode="wait">
                   {isExpanded && (
                     <motion.div
