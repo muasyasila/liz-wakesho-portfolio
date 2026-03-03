@@ -57,36 +57,9 @@ const pillars = [
 export default function SixPillars() {
   const [expanded, setExpanded] = useState<string | null>("mental-health");
   const [isPaused, setIsPaused] = useState(false);
-  const [navbarHeight, setNavbarHeight] = useState(0);
 
   // Initialize the refs object to track each pillar's position
   const pillarRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const sectionRef = useRef<HTMLElement>(null);
-
-  // Get navbar height on mount and window resize
-  useEffect(() => {
-    const getNavbarHeight = () => {
-      // Try to find the navbar by common classes/selectors
-      const navbar = document.querySelector('nav, header, [class*="navbar"], [class*="header"]');
-      if (navbar) {
-        const height = navbar.getBoundingClientRect().height;
-        setNavbarHeight(height);
-      } else {
-        // Default fallback height if navbar not found
-        setNavbarHeight(80);
-      }
-    };
-
-    getNavbarHeight();
-    
-    // Re-calculate on resize
-    window.addEventListener('resize', getNavbarHeight);
-    
-    // Also run after a short delay to ensure DOM is ready
-    setTimeout(getNavbarHeight, 100);
-    
-    return () => window.removeEventListener('resize', getNavbarHeight);
-  }, []);
 
   // Auto-animation logic
   useEffect(() => {
@@ -98,7 +71,7 @@ export default function SixPillars() {
         const nextIndex = (currentIndex + 1) % pillars.length;
         return pillars[nextIndex].id;
       });
-    }, 5000);
+    }, 5000); // Changes every 5 seconds
 
     return () => clearInterval(interval);
   }, [isPaused]);
@@ -107,46 +80,26 @@ export default function SixPillars() {
     setExpanded(id);
     setIsPaused(true);
 
-    // Improved mobile scroll with navbar offset
+    // FIXED: Smart Scroll for Mobile
+    // Adds a 300ms delay to allow the expansion animation to begin before scrolling
     setTimeout(() => {
       const element = pillarRefs.current[id];
       if (element && window.innerWidth < 768) {
-        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-        const offsetPosition = elementPosition - navbarHeight - 20; // 20px extra padding
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
+        element.scrollIntoView({ 
+          behavior: "smooth", 
+          block: "start" 
         });
       }
-    }, 400); // Slightly longer delay for expansion animation
+    }, 300); 
 
     setTimeout(() => setIsPaused(false), 10000);
   };
 
-  // Reset expanded on mobile when clicking outside? (Optional)
-  // useEffect(() => {
-  //   const handleClickOutside = (e: MouseEvent) => {
-  //     if (window.innerWidth < 768 && expanded) {
-  //       const clickedElement = e.target as HTMLElement;
-  //       if (!clickedElement.closest('[data-pillar]')) {
-  //         setExpanded(null);
-  //       }
-  //     }
-  //   };
-  //   document.addEventListener('click', handleClickOutside);
-  //   return () => document.removeEventListener('click', handleClickOutside);
-  // }, [expanded]);
-
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-white dark:bg-navy-deep overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 mb-10 md:mb-16 text-center md:text-left">
-        <h2 className="text-3xl sm:text-4xl md:text-6xl font-serif text-navy-deep dark:text-white">
-          Advocacy Pillars
-        </h2>
-        <p className="text-gold-accent mt-3 md:mt-4 tracking-[0.2em] md:tracking-[0.3em] uppercase text-xs md:text-sm font-bold">
-          Driven by Justice & Sustainability
-        </p>
+    <section className="py-24 bg-white dark:bg-navy-deep overflow-hidden">
+      <div className="max-w-7xl mx-auto px-8 mb-16 text-center md:text-left">
+        <h2 className="text-4xl md:text-6xl font-serif text-navy-deep dark:text-white">Advocacy Pillars</h2>
+        <p className="text-gold-accent mt-4 tracking-[0.3em] uppercase text-sm font-bold">Driven by Justice & Sustainability</p>
       </div>
 
       <div className="flex flex-col md:flex-row h-auto md:h-[650px] w-full border-t border-b border-navy-deep/10 dark:border-white/10">
@@ -155,73 +108,56 @@ export default function SixPillars() {
           return (
             <motion.div
               key={pillar.id}
-              data-pillar
+              // FIXED: Changed ref callback to return void
               ref={(el) => {
                 pillarRefs.current[pillar.id] = el;
               }}
               onClick={() => handleManualSelect(pillar.id)}
-              layout
-              // Improved mobile styles
-              className={`relative cursor-pointer overflow-hidden transition-all duration-700 ease-in-out 
-                border-b md:border-b-0 md:border-r border-navy-deep/10 dark:border-white/10 
-                flex flex-col
-                ${isExpanded 
-                  ? "flex-[5] min-h-[500px] md:min-h-0" // Taller on mobile when expanded
-                  : "flex-[1] min-h-[70px] md:min-h-0" // Slightly smaller collapsed on mobile
-                }`}
+              layout 
+              className={`relative cursor-pointer overflow-hidden transition-all duration-700 ease-in-out border-b md:border-b-0 md:border-r border-navy-deep/10 dark:border-white/10 flex flex-col
+                ${isExpanded ? "flex-[5] min-h-[400px] md:min-h-0" : "flex-[1] min-h-[80px] md:min-h-0"}`}
             >
               <div className={`absolute inset-0 z-0 ${pillar.color} transition-opacity duration-500 ${isExpanded ? "opacity-100" : "opacity-80"}`} />
 
-              <div className="relative z-10 h-full p-4 sm:p-5 md:p-8 flex flex-col justify-between">
+              <div className="relative z-10 h-full p-6 md:p-8 flex flex-col justify-between">
                 
-                {/* Icon and Title Section */}
-                <div className="flex items-center gap-3 md:gap-4 text-gold-accent">
-                  <div className="flex-shrink-0">
-                    {pillar.icon}
-                  </div>
-                  <h3 className={`font-serif text-white transition-all duration-300 
-                    ${isExpanded 
-                      ? "text-xl sm:text-2xl md:text-4xl opacity-100" 
-                      : "text-base sm:text-lg md:opacity-0"
-                    }`}>
+                <div className="flex items-center gap-4 text-gold-accent">
+                  <div className="flex-shrink-0">{pillar.icon}</div>
+                  <h3 className={`font-serif text-white transition-opacity duration-300 ${isExpanded ? "text-2xl md:text-4xl opacity-100" : "text-xl md:opacity-0"}`}>
                     {pillar.title}
                   </h3>
                 </div>
 
-                {/* Vertical text for collapsed state - adjusted for mobile */}
                 {!isExpanded && (
                   <motion.div 
                     initial={{ opacity: 0 }} 
                     animate={{ opacity: 1 }}
                     className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none"
                   >
-                    <span className="rotate-90 md:-rotate-90 whitespace-nowrap text-white/40 uppercase tracking-[0.3em] md:tracking-[0.5em] font-bold text-xs">
+                    <span className="rotate-90 md:-rotate-90 whitespace-nowrap text-white/40 uppercase tracking-[0.5em] font-bold text-xs">
                       {pillar.title}
                     </span>
                   </motion.div>
                 )}
 
-                {/* Content for expanded state - improved for mobile */}
                 <AnimatePresence mode="wait">
                   {isExpanded && (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.4 }}
-                      className="flex flex-col h-full mt-3 sm:mt-4 md:mt-6 justify-end"
+                      transition={{ duration: 0.5 }}
+                      className="flex flex-col h-full mt-6 justify-end"
                     >
-                      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6">
-                        <p className="text-white/80 text-sm sm:text-base md:text-lg leading-relaxed mb-4 sm:mb-5 md:mb-6">
+                      <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                        <p className="text-white/80 text-base md:text-lg leading-relaxed mb-6">
                           {pillar.description}
                         </p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 md:gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           {pillar.impact.map((item, idx) => (
-                            <div key={idx} className="flex items-center gap-2 sm:gap-3">
-                              <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-gold-accent flex-shrink-0" />
-                              <span className="text-white/60 text-xs sm:text-sm md:text-sm tracking-wide">
-                                {item}
-                              </span>
+                            <div key={idx} className="flex items-center gap-3">
+                              <div className="w-1.5 h-1.5 rounded-full bg-gold-accent flex-shrink-0" />
+                              <span className="text-white/60 text-xs md:text-sm tracking-wide">{item}</span>
                             </div>
                           ))}
                         </div>
