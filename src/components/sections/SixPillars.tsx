@@ -71,7 +71,7 @@ export default function SixPillars() {
         const nextIndex = (currentIndex + 1) % pillars.length;
         return pillars[nextIndex].id;
       });
-    }, 5000); // Changes every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [isPaused]);
@@ -80,17 +80,24 @@ export default function SixPillars() {
     setExpanded(id);
     setIsPaused(true);
 
-    // FIXED: Smart Scroll for Mobile
-    // Adds a 300ms delay to allow the expansion animation to begin before scrolling
+    // FIXED: Smart Scroll for Mobile with navbar offset
     setTimeout(() => {
       const element = pillarRefs.current[id];
       if (element && window.innerWidth < 768) {
-        element.scrollIntoView({ 
-          behavior: "smooth", 
-          block: "start" 
+        // Get navbar height dynamically
+        const navbar = document.querySelector('nav, header, [class*="navbar"], [class*="header"]');
+        const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 80;
+        
+        // Calculate position with offset
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - navbarHeight - 20; // 20px extra padding
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
         });
       }
-    }, 300); 
+    }, 300);
 
     setTimeout(() => setIsPaused(false), 10000);
   };
@@ -108,7 +115,6 @@ export default function SixPillars() {
           return (
             <motion.div
               key={pillar.id}
-              // FIXED: Changed ref callback to return void
               ref={(el) => {
                 pillarRefs.current[pillar.id] = el;
               }}
