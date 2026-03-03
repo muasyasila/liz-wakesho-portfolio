@@ -49,12 +49,12 @@ export default function BackToTop() {
                <ArrowUp className="text-white group-hover:-translate-y-1 transition-transform duration-300" size={18} />
             </div>
 
-            {/* Rotating Progress Ring (Optional Epic Detail) */}
-            <svg className="absolute inset-0 w-full h-full -rotate-90">
+            {/* Rotating Progress Ring - FIXED for all screen sizes */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 64 64">
               <circle
-                cx={24}
-                cy={24}
-                r={22}
+                cx="32"
+                cy="32"
+                r="30"
                 stroke="white"
                 strokeWidth="1"
                 fill="transparent"

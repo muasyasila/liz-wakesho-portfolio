@@ -19,35 +19,37 @@ export default function ContactCard() {
     if (submitStatus !== "idle") setSubmitStatus("idle");
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitStatus("idle");
 
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.message) {
-      setSubmitStatus("error");
-      setIsSubmitting(false);
-      return;
-    }
+  try {
+    const response = await fetch("/api/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    try {
-      // Here you would typically send the data to your backend
-      // For now, we'll simulate an API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      console.log("Form submitted:", formData);
+    if (response.ok) {
+      console.log("Email sent successfully!");
       setSubmitStatus("success");
       setFormData({ name: "", email: "", message: "" });
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    } catch (error) {
-      setSubmitStatus("error");
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      throw new Error("Failed to send");
     }
-  };
+  } catch (error) {
+    console.error("Submission error:", error);
+    setSubmitStatus("error");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleSocialClick = (type: string, value: string) => {
     switch(type) {
