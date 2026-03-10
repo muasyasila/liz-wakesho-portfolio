@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Liz Wakesho | The Visionary",
     description: "Politician, Model, Advocate & Tech CEO.",
-    url: "https://lizwakesho.co.ke", // Replace with your actual domain
+    url: "https://lizwakesho.co.ke", 
     siteName: "Liz Wakesho Portfolio",
     images: [
       {
