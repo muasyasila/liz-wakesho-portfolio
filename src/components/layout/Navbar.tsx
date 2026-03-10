@@ -107,7 +107,9 @@ export default function Navbar() {
             <span className={`block w-6 h-0.5 transition-all duration-300 ${burgerColor} ${isMenuOpen ? "-rotate-45 -translate-y-0" : ""}`}></span>
           </button>
 
-          <button className={`hidden md:block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all rounded-full border-2
+          <button 
+          onClick={() => scrollToSection("contact-section")}
+          className={`hidden md:block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-all rounded-full border-2
             ${isScrolled ? "bg-black text-white border-black" : "bg-white text-black border-white"}`}>
             Inquire
           </button>
@@ -129,7 +131,9 @@ export default function Navbar() {
             </button>
           ))}
           <div className="h-px w-20 bg-white/10 mx-auto mt-4" />
-          <button className="text-[#D4AF37] font-mono text-xs tracking-[0.3em] uppercase font-bold">
+          <button 
+          onClick={() => scrollToSection("contact-section")}
+          className="text-[#D4AF37] font-mono text-xs tracking-[0.3em] uppercase font-bold">
             Inquire
           </button>
         </div>

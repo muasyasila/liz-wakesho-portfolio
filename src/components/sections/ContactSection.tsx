@@ -2,14 +2,17 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, Instagram, Mail, Linkedin, CheckCircle, AlertCircle } from "lucide-react";
+import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactCard() {
+  // Your verified Formspree ID
+  const [state, handleSubmit] = useForm("mgonanoe");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: ""
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -19,37 +22,33 @@ export default function ContactCard() {
     if (submitStatus !== "idle") setSubmitStatus("idle");
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setSubmitStatus("idle");
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setSubmitStatus("idle");
+    
+    // Create FormData from the form element
+    const formElement = e.currentTarget;
+    const formDataToSend = new FormData(formElement);
+    
+    // Add the subject as _subject for Formspree
+    formDataToSend.set('_subject', formData.subject);
+    
+    // Use the form element to submit
+    await handleSubmit(formDataToSend);
+  };
 
-  try {
-    const response = await fetch("/api/send", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    if (response.ok) {
-      console.log("Email sent successfully!");
+  // Update status based on Formspree state
+  React.useEffect(() => {
+    if (state.succeeded) {
       setSubmitStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", subject: "", message: "" });
       
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus("idle"), 5000);
-    } else {
-      throw new Error("Failed to send");
+    } else if (state.errors && Object.keys(state.errors).length > 0) {
+      setSubmitStatus("error");
     }
-  } catch (error) {
-    console.error("Submission error:", error);
-    setSubmitStatus("error");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  }, [state.succeeded, state.errors]);
 
   const handleSocialClick = (type: string, value: string) => {
     switch(type) {
@@ -134,7 +133,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             whileInView={{ opacity: 1, x: 0 }}
             className="lg:col-span-2 bg-[#F8F9FA] dark:bg-[#0A0F1D] p-8 md:p-12 rounded-[3rem] shadow-2xl border border-[#D4AF37]/10"
           >
-            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Name Input */}
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-[#D4AF37] ml-2">Full Name</label>
@@ -147,6 +146,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white placeholder:text-gray-400"
                   required
                 />
+                <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-600 text-xs mt-1 ml-2" />
               </div>
 
               {/* Email Input */}
@@ -161,6 +161,23 @@ const handleSubmit = async (e: React.FormEvent) => {
                   className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white placeholder:text-gray-400"
                   required
                 />
+                <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-600 text-xs mt-1 ml-2" />
+              </div>
+
+              {/* Subject Input - New Field */}
+              <div className="md:col-span-2 space-y-2">
+                <label className="text-[10px] uppercase tracking-widest font-bold text-[#D4AF37] ml-2">Subject</label>
+                <input 
+                  type="text" 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="What would you like to discuss?" 
+                  className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white placeholder:text-gray-400"
+                  required
+                />
+                <ValidationError prefix="Subject" field="subject" errors={state.errors} className="text-red-600 text-xs mt-1 ml-2" />
+                <p className="text-[9px] text-[#D4AF37] uppercase tracking-wider mt-1 ml-2">This will be the subject line of your email</p>
               </div>
 
               {/* Message Input */}
@@ -171,10 +188,11 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4} 
-                  placeholder="What's on your mind?" 
+                  placeholder="I'd love to hear from you..." 
                   className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white resize-none placeholder:text-gray-400"
                   required
                 />
+                <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-600 text-xs mt-1 ml-2" />
               </div>
 
               {/* Status Message */}
@@ -196,7 +214,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   className="md:col-span-2 flex items-center gap-2 text-red-600 bg-red-50 dark:bg-red-900/20 p-3 rounded-xl"
                 >
                   <AlertCircle size={18} />
-                  <span className="text-sm">Please fill in all fields correctly.</span>
+                  <span className="text-sm">There was an error sending your message. Please check all fields and try again.</span>
                 </motion.div>
               )}
 
@@ -204,11 +222,11 @@ const handleSubmit = async (e: React.FormEvent) => {
               <div className="md:col-span-2 pt-4">
                 <button 
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={state.submitting}
                   className="group relative w-full md:w-auto overflow-hidden rounded-full bg-[#050A18] dark:bg-[#D4AF37] px-12 py-4 text-white font-bold transition-all duration-300 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    {isSubmitting ? (
+                    {state.submitting ? (
                       <>Sending...</>
                     ) : (
                       <>Send Message <Send size={16} /></>
