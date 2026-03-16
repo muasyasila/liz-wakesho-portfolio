@@ -4,7 +4,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Political / Leadership Colors */
+  /* Leadership Colors */
   --color-navy-deep: #0a192f;
   --color-gold-accent: #e6b325;
   

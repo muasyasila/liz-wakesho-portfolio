@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 const slides = [
   { 
     title: "The Advocate", 
-    category: "Politics", 
+    category: "Leadership", 
     color: "bg-[#F9F7F2] dark:bg-[#050A18]", 
     text: "Fighting for equity in the heart of the city.", 
     image: "/images/profile5.webp" 

@@ -20,22 +20,22 @@ const geistMono = Geist_Mono({
 
 // 2. METADATA (SEO & BRANDING)
 export const metadata: Metadata = {
-  title: "Liz Wakesho Mwashori | Politician, Model, Advocate & Tech CEO",
-  description: "Official portfolio of Liz Wakesho Mwashori - CEO of Trelio Mental Health App, Cyber Security Expert, and Political Advocate building tech with purpose.",
-  keywords: ["Liz Wakesho", "Liz Wakesho Mwashori", "Trelio CEO", "Kenyan Tech Leaders", "Female Politicians Kenya", "Cyber Security Expert Kenya"],
+  title: "Liz Wakesho Mwashori | Leader, Model, Advocate & Tech CEO",
+  description: "Official portfolio of Liz Wakesho Mwashori - CEO of Trelio Mental Health App, Cyber Security Expert, Leader and Advocate building tech with purpose.",
+  keywords: ["Liz Wakesho", "Liz Wakesho Mwashori", "Trelio CEO", "Kenyan Tech Leaders", "Female Kenyan Leaders", "Cyber Security Expert Kenya"],
   authors: [{ name: "Liz Wakesho" }],
 
   verification: {
     google: "hNflrd3mTMZntb4Rlht_2Uo6wtyKexfodIz4oGokMCw",
   },
   icons: {
-    icon: "/images/favicon.png", // Updated to your requested image
+    icon: "/images/favicon.png",
     apple: "/images/favicon.png", 
   },
-  // OpenGraph makes your site look "Epic" when shared on WhatsApp/Twitter/LinkedIn
+  // OpenGraph for "Epic" when shared on WhatsApp/Twitter/LinkedIn
   openGraph: {
     title: "Liz Wakesho | The Visionary",
-    description: "Politician, Model, Advocate & Tech CEO.",
+    description: "Leader, Model, Advocate & Tech CEO.",
     url: "https://lizwakesho.co.ke", 
     siteName: "Liz Wakesho Portfolio",
     images: [
@@ -60,8 +60,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-navy-deep text-navy-deep dark:text-white transition-colors duration-500 overflow-x-hidden`}
-      >
+  className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-navy-deep text-navy-deep dark:text-white transition-colors duration-500 overflow-x-hidden`}
+  suppressHydrationWarning
+>
         <ThemeProvider>
           <ScrollReset />
           <BackToTop />
