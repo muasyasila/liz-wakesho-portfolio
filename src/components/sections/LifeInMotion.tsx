@@ -87,7 +87,7 @@ export default function LifeInMotion() {
         Miss County Kenya
       </h3>
       <p className="text-white/90 text-sm font-medium drop-shadow-[0_2px_3px_rgba(0,0,0,0.5)]">
-        Current Miss County Kenya
+        Current Title Holder
       </p>
     </div>
   </div>

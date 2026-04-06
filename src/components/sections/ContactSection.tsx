@@ -59,8 +59,8 @@ export default function ContactCard() {
         window.open(`https://instagram.com/${value.replace('@', '')}`, '_blank');
         break;
       case "linkedin":
-        window.open(`https://linkedin.com/in/${value.toLowerCase().replace(/\s+/g, '-')}`, '_blank');
-        break;
+  window.open('https://www.linkedin.com/in/liz-wakesho-/', '_blank');
+  break;
       default:
         break;
     }
