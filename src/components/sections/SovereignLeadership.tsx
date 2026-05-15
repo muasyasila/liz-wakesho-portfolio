@@ -64,7 +64,7 @@ export default function SovereignMandate() {
             </div>
 
             <div className="relative z-10 rounded-2xl md:rounded-3xl overflow-hidden border border-slate-200 dark:border-white/20 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
-              <img src="/images/profile6.webp" alt="Prime Minister Liz Wakesho" className="w-full aspect-[4/5] object-cover" />
+              <img src="/images/profile6.webp" alt="President Liz Wakesho" className="w-full aspect-[4/5] object-cover" />
             </div>
             <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-[#D4AF37] z-0 rounded-full mix-blend-multiply dark:mix-blend-screen opacity-40 dark:opacity-60 blur-[2px]" />
           </motion.div>
@@ -76,7 +76,7 @@ export default function SovereignMandate() {
               <div className="space-y-2">
                 <span className="text-[#D4AF37] font-bold tracking-[0.4em] uppercase text-[10px] md:text-sm">Administration 2026 — 2028</span>
                 <h2 className="text-4xl md:text-7xl font-serif text-slate-900 dark:text-white leading-[0.9] uppercase">
-                  Prime <br className="hidden lg:block" /> Minister <br className="hidden lg:block" /> <span className="text-[#D4AF37] italic font-medium">TTSA</span>
+                  President <br className="hidden lg:block" /> <span className="text-[#D4AF37] italic font-medium">TTSA</span>
                 </h2>
               </div>
 
@@ -99,7 +99,7 @@ export default function SovereignMandate() {
                 onClick={() => setIsOpen(true)}
                 className="w-full lg:w-auto group relative px-8 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-full overflow-hidden transition-all hover:scale-105 shadow-xl hover:shadow-[#D4AF37]/20"
               >
-                <span className="relative z-10 font-bold uppercase tracking-widest text-[10px] md:text-xs">Read Ministerial Statement</span>
+                <span className="relative z-10 font-bold uppercase tracking-widest text-[10px] md:text-xs">Read Presidental Statement</span>
                 <div className="absolute inset-0 bg-[#D4AF37] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500" />
               </button>
             </div>
@@ -107,7 +107,7 @@ export default function SovereignMandate() {
         </div>
       </div>
 
-      {/* --- OFFICIAL MINISTERIAL STATEMENT MODAL --- */}
+      {/* --- OFFICIAL PRESIDENTIAL STATEMENT MODAL --- */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
@@ -147,7 +147,7 @@ export default function SovereignMandate() {
                   {/* Digital Signature Footer */}
                   <div className="pt-8 border-t border-slate-100 dark:border-white/5">
                     <p className="font-serif text-[#D4AF37] text-3xl italic">Liz Wakesho</p>
-                    <p className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-60 dark:text-white">Prime Minister, TTSA</p>
+                    <p className="text-[10px] uppercase tracking-[0.3em] font-bold opacity-60 dark:text-white">President, TTSA</p>
                   </div>
                 </div>
               </div>
