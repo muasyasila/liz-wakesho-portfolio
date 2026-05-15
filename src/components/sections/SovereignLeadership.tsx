@@ -134,7 +134,7 @@ export default function SovereignMandate() {
               <div className="space-y-8">
                 <div className="flex items-center gap-4">
                   <div className="h-px w-12 bg-[#D4AF37]" />
-                  <span className="text-[#D4AF37] font-bold tracking-widest uppercase text-[10px]">Official Communiqué</span>
+                  <span className="text-[#D4AF37] font-bold tracking-widest uppercase text-[10px]">Official</span>
                 </div>
 
                 <h3 className="text-3xl md:text-4xl font-serif text-slate-900 dark:text-white leading-tight">A Unified Mandate for <br/> Taita Taveta</h3>

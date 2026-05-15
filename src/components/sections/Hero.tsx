@@ -29,10 +29,10 @@ export default function Hero() {
     {
       title: "The Innovator",
       subtitle: "CEO @ TRELIO",
-      titleColor: "text-white", // Changed to white
+      titleColor: "text-white", 
       subtitleColor: "text-[#008080]",
       bgImage: 'url("/images/trelioceo.webp")',
-      bgClass: "bg-[#050A18]", // Changed to same dark background as Leader
+      bgClass: "bg-[#050A18]", 
       textPosition: "md:text-right md:mr-32",
       titleFont: "font-sans font-black",
       overlay: false
@@ -145,7 +145,7 @@ export default function Hero() {
         {/* MOBILE VIEW - Cards switch every 5 seconds */}
         {isMobile && (
           <div className="relative w-full h-full">
-            {/* Slide 1 - Leader (Advocate) - Always visible first */}
+          
             <motion.div
               initial={{ opacity: 1 }}
               animate={{ 
