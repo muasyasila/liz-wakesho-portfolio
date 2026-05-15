@@ -5,7 +5,7 @@ const techLogos = ["Trelio", "Vercel", "Stripe", "OpenAI", "Nvidia", "AWS"];
 
 export default function Marquee() {
   const renderLogos = (logos: string[]) => (
-    // We duplicate the array to ensure the loop is seamless
+  
     [...logos, ...logos].map((logo, i) => (
       <div key={i} className="flex items-center justify-center px-12 group">
         <span className="text-2xl md:text-4xl font-serif italic text-navy-deep/20 dark:text-white/20 
@@ -28,12 +28,12 @@ export default function Marquee() {
       {/* THE MASK: This creates the luxury "fade out" on the edges */}
       <div className="relative flex flex-col gap-12 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
         
-        {/* Row 1: Political (Moves Left) */}
+  
         <div className="flex w-max animate-marquee">
           {renderLogos(politicalLogos)}
         </div>
 
-        {/* Row 2: Tech (Moves Right) */}
+
         <div className="flex w-max animate-marquee-reverse">
           {renderLogos(techLogos)}
         </div>

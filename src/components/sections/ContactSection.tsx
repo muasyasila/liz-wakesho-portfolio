@@ -5,7 +5,7 @@ import { Send, Instagram, Mail, Linkedin, CheckCircle, AlertCircle } from "lucid
 import { useForm, ValidationError } from '@formspree/react';
 
 export default function ContactCard() {
-  // Your verified Formspree ID
+
   const [state, handleSubmit] = useForm("mgonanoe");
   const [formData, setFormData] = useState({
     name: "",
@@ -18,7 +18,7 @@ export default function ContactCard() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    // Reset status when user starts typing again
+
     if (submitStatus !== "idle") setSubmitStatus("idle");
   };
 
@@ -26,14 +26,14 @@ export default function ContactCard() {
     e.preventDefault();
     setSubmitStatus("idle");
     
-    // Create FormData from the form element
+
     const formElement = e.currentTarget;
     const formDataToSend = new FormData(formElement);
     
-    // Add the subject as _subject for Formspree
+
     formDataToSend.set('_subject', formData.subject);
     
-    // Use the form element to submit
+
     await handleSubmit(formDataToSend);
   };
 
@@ -43,7 +43,7 @@ export default function ContactCard() {
       setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
       
-      // Reset success message after 5 seconds
+    
       setTimeout(() => setSubmitStatus("idle"), 5000);
     } else if (state.errors && Object.keys(state.errors).length > 0) {
       setSubmitStatus("error");

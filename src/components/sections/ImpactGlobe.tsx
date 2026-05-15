@@ -29,7 +29,7 @@ export default function ImpactGlobe() {
               <meshBasicMaterial color="#d4af37" />
             </mesh>
             
-            {/* Subtle Glow for the point */}
+
             <mesh position={[0.3, 0.1, 0.95]}>
               <sphereGeometry args={[0.05, 16, 16]} />
               <meshBasicMaterial color="#d4af37" transparent opacity={0.2} />
