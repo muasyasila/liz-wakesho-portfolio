@@ -40,10 +40,10 @@ export default function LegacyTimeline() {
   useGSAP(() => {
     if (!lineRef.current || !container.current) return;
 
-    // Refresh ScrollTrigger to handle mobile height changes
+
     ScrollTrigger.refresh();
 
-    // Gold line growth animation
+
     gsap.fromTo(
       lineRef.current,
       { scaleY: 0 },
@@ -54,13 +54,13 @@ export default function LegacyTimeline() {
           trigger: container.current,
           start: "top 10%",
           end: "bottom 90%",
-          scrub: 1, // Smoother follow-through
-          invalidateOnRefresh: true, // Crucial for mobile resizing
+          scrub: 1,
+          invalidateOnRefresh: true,
         },
       }
     );
 
-    // Fade and Slide items
+
     gsap.utils.toArray(".timeline-block").forEach((block: any) => {
       gsap.from(block, {
         opacity: 0,

@@ -47,10 +47,10 @@ export default function Navbar() {
   const textColor = isMenuOpen ? "text-white" : (isScrolled ? "text-black" : "text-white");
   const burgerColor = isMenuOpen ? "bg-white" : (isScrolled ? "bg-black" : "bg-white");
 
-  // Navigation items - 4 most important sections
+
   const navItems = [
     { name: "Home", id: "hero-section" },
-    { name: "About", id: "life-in-motion" }, // Second section
+    { name: "About", id: "life-in-motion" }, 
     { name: "Trelio", id: "trelio-section" },
     { name: "Contact", id: "contact-section" }
   ];

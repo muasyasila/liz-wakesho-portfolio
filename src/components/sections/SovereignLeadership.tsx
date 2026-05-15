@@ -121,7 +121,7 @@ export default function SovereignMandate() {
               initial={{ scale: 0.9, y: 50 }} 
               animate={{ scale: 1, y: 0 }} 
               exit={{ scale: 0.9, y: 50 }}
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking modal content
+              onClick={(e) => e.stopPropagation()}
               className="bg-white dark:bg-[#0A0A0A] max-w-2xl w-full p-8 md:p-14 rounded-[2rem] md:rounded-3xl relative shadow-2xl border border-slate-200 dark:border-white/10"
             >
               <button 

@@ -59,11 +59,11 @@ export default function SixPillars() {
   const [isPaused, setIsPaused] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
-  // Initialize the refs object to track each pillar's position
+
   const pillarRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Intersection Observer to detect when section is in view
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -71,7 +71,7 @@ export default function SixPillars() {
           setIsVisible(entry.isIntersecting);
         });
       },
-      { threshold: 0.3 } // Trigger when at least 30% of the section is visible
+      { threshold: 0.3 }
     );
 
     if (sectionRef.current) {
@@ -85,7 +85,7 @@ export default function SixPillars() {
     };
   }, []);
 
-  // Auto-animation logic - only runs when section is visible and not paused
+
   useEffect(() => {
     if (isPaused || !isVisible) return;
     
@@ -108,17 +108,17 @@ export default function SixPillars() {
     setTimeout(() => {
       const element = pillarRefs.current[id];
       if (element && window.innerWidth < 768) {
-        // Get navbar height
+      
         const navbar = document.querySelector('nav, header, [class*="navbar"], [class*="header"]');
         const navbarHeight = navbar ? navbar.getBoundingClientRect().height : 80;
         
-        // Get the element's position relative to the viewport
+    
         const rect = element.getBoundingClientRect();
         
-        // If the element is not fully visible below the navbar, scroll it into view
+
         if (rect.top < navbarHeight) {
           window.scrollBy({
-            top: rect.top - navbarHeight - 10, // Small buffer
+            top: rect.top - navbarHeight - 10, 
             behavior: "smooth"
           });
         }

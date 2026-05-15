@@ -9,7 +9,7 @@ export default function SecurityExpert() {
   return (
     <section className="relative min-h-screen bg-slate-50 dark:bg-[#020305] flex items-center justify-center overflow-hidden font-mono px-4 py-12 md:py-0 transition-colors duration-700">
       
-      {/* 1. BACKGROUND TECH-GRID - Adapts to Light/Dark */}
+
       <div 
         className="absolute inset-0 z-0 opacity-[0.15] dark:opacity-20" 
         style={{ 

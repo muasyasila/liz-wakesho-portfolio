@@ -37,7 +37,7 @@ export default function ContactCard() {
     await handleSubmit(formDataToSend);
   };
 
-  // Update status based on Formspree state
+  
   React.useEffect(() => {
     if (state.succeeded) {
       setSubmitStatus("success");
@@ -232,7 +232,6 @@ export default function ContactCard() {
                       <>Send Message <Send size={16} /></>
                     )}
                   </span>
-                  {/* Hover Background Slide */}
                   <div className="absolute inset-0 bg-[#D4AF37] dark:bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
                 </button>
               </div>
