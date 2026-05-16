@@ -172,7 +172,7 @@ export default function ContactCard() {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="Tell me more ..." 
+                  placeholder="What would you like to discuss?" 
                   className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white placeholder:text-gray-400"
                   required
                 />
@@ -188,7 +188,7 @@ export default function ContactCard() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4} 
-                  placeholder="I'd love to hear from you..." 
+                  placeholder="Tell me more..." 
                   className="w-full bg-white dark:bg-[#050A18] border border-gray-200 dark:border-white/10 rounded-2xl p-4 focus:border-[#D4AF37] outline-none transition-all text-[#050A18] dark:text-white resize-none placeholder:text-gray-400"
                   required
                 />
